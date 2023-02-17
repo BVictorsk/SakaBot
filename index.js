@@ -33,3 +33,20 @@ client.once(Events.ClientReady, c => {
 client.login(TOKEN);
 
 //listener
+client.on(Events.InteractionCreate, async interaction => {
+        if (!interaction.isChatInputCommand())
+        return;
+        const command = interaction.client.commands.get(interaction.commandName);
+        if(!command) {
+            console.error("Comando não encontrado");
+            return;
+        }
+        try {
+            await command.execute(interaction)
+        }
+        catch (err) {
+            console.error(err)
+            await interaction.reply("Ocorreu um erro na execução do comando!")
+        }
+    }
+)
